@@ -3,7 +3,7 @@ name: Deploy and Test
 on:
   push:
     branches:
-      - main # Or whatever your main branch is
+      - main
   pull_request:
     branches:
       - main
@@ -21,13 +21,16 @@ jobs:
       with:
         python-version: '3.12'
 
-    - name: Install dependencies
+    - name: Install build dependencies
       run: |
-        python3 -m pip install --upgrade pip
+        python3 -m pip install --upgrade pip setuptools wheel
+
+    - name: Install project dependencies
+      run: |
         cd SentimentModel
-        pip install -r requirements.txt
+        python3 -m pip install -r requirements.txt
 
     - name: Run pytest
       run: |
         cd SentimentModel
-        pytest test.py -v
+        python3 -m pytest test.py -v
